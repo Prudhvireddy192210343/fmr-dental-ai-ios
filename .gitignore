@@ -1,0 +1,12 @@
+venv/
+__pycache__/
+*.pyc
+.env
+.DS_Store
+full_mouth_model.h5
+*.h5
+*.ckpt
+*.pt
+*.pth
+*.pb
+*.dylib
