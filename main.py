@@ -9,12 +9,20 @@ import json
 from datetime import datetime
 from ai_engine import ai_engine
 from feature_config import FEATURE_COLUMNS
+from dotenv import load_dotenv
+
+# Load production configurations
+load_dotenv()
 
 app = Flask(__name__)
-CORS(app)
 
-# Basic MySQL configuration String
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:@127.0.0.1:3306/backend_fmr'
+# Security: CORS configuration
+# In production, replace '*' with your frontend URL (e.g., 'https://fmr-ai.com')
+CORS(app, resources={r"/*": {"origins": "*"}})
+
+# Database Configuration (from .env)
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db.init_app(app)
@@ -400,4 +408,6 @@ def predict():
         return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
-    app.run(debug=False, host='0.0.0.0', port=8000)
+    port = int(os.getenv('PORT', 8000))
+    # In production, set debug to False
+    app.run(debug=False, host='0.0.0.0', port=port)
