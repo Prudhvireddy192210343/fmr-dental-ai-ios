@@ -10,6 +10,10 @@ full_mouth_model.h5
 *.pth
 *.pb
 *.dylib
-__pycache__/
-*.pyc
-.DS_Store
+
+# Database files
+*.sql
+*.sqlite
+*.db
+
+
